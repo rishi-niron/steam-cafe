@@ -1,10 +1,25 @@
 import { useState } from 'react'
+import { Link, Route, Routes } from 'react-router-dom'
 import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
+import { pages } from './pages'
 
-function App() {
+function Nav() {
+  return (
+    <nav style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', padding: '16px' }}>
+      <Link to="/">Home</Link>
+      {pages.map(({ path, name }) => (
+        <Link key={path} to={path}>
+          {name}
+        </Link>
+      ))}
+    </nav>
+  )
+}
+
+function Home() {
   const [count, setCount] = useState(0)
 
   return (
@@ -115,6 +130,20 @@ function App() {
 
       <div className="ticks"></div>
       <section id="spacer"></section>
+    </>
+  )
+}
+
+function App() {
+  return (
+    <>
+      <Nav />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {pages.map(({ path, Component }) => (
+          <Route key={path} path={path} element={<Component />} />
+        ))}
+      </Routes>
     </>
   )
 }
